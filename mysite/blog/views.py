@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import send_mail
 from django.views.decorators.http import require_POST
@@ -74,6 +74,7 @@ def post_comment(request, post_id):
         comment = form.save(commit=False)
         comment.post = post
         comment.save()
+        return redirect(post.get_absolute_url())
     return render(request, 'blog/post/comment.html', {'post': post,
                                                       'form': form,
                                                       'comment': comment})
